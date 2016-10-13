@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    <div class="container">
+        <div class="col-md-4">
+          <button id="update-grid-button" class="btn btn-success">Update Grid Size or Clear</button>
+        </div>
+      <table id="canvas"></table>
+    </div>
+<!-- //Start of adding in the sliders -->
+    <div>
+      <style>
+        #red, #green, #blue {
+          float: left;
+          clear: left;
+          width: 300px;
+          margin: 15px;
+        }
+        #swatch {
+          width: 120px;
+          height: 100px;
+          margin-top: 18px;
+          margin-left: 350px;
+          background-image: none;
+        }
+        #red .ui-slider-range { background: #ef2929; }
+        #red .ui-slider-handle { border-color: #ef2929; }
+        #green .ui-slider-range { background: #8ae234; }
+        #green .ui-slider-handle { border-color: #8ae234; }
+        #blue .ui-slider-range { background: #729fcf; }
+        #blue .ui-slider-handle { border-color: #729fcf; }
+    </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    function hexFromRGB(r, g, b) {
+      var hex = [
+        r.toString( 16 ),
+        g.toString( 16 ),
+        b.toString( 16 )
+      ];
+      $.each( hex, function( nr, val ) {
+        if ( val.length === 1 ) {
+          hex[ nr ] = "0" + val;
+        }
+      });
+      return hex.join( "" ).toUpperCase();
+    }
+    function refreshSwatch() {
+      var red = $( "#red" ).slider( "value" ),
+        green = $( "#green" ).slider( "value" ),
+        blue = $( "#blue" ).slider( "value" ),
+        hex = hexFromRGB( red, green, blue );
+      $( "#swatch" ).css( "background-color", "#" + hex );
+    }
+
+    $( "#red, #green, #blue" ).slider({
+      orientation: "horizontal",
+      range: "min",
+      max: 255,
+      value: 127,
+      slide: refreshSwatch,
+      change: refreshSwatch
+    });
+    $( "#red" ).slider( "value", 255 );
+    $( "#green" ).slider( "value", 140 );
+    $( "#blue" ).slider( "value", 60 );
+  } );
+  </script>
+</div>
+<div class="ui-widget-content" style="border:0;">
+<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;">
+Colorpicker
+</p>
+<div id="red"></div>
+<div id="green"></div>
+<div id="blue"></div>
+<div id="swatch" class="ui-widget-content ui-corner-all"></div>
+  <p>
+    <label for="amount">Set Number of Rows/Columns:</label>
+    <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+  </p>
+  <div id="slider-range-max"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js" charset="utf-8"></script>
+  <script src="js/app.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#slider-range-max" ).slider({
+      range: "max",
+      min: 5,
+      max: 50,
+      value: 5,
+      slide: function( event, ui ) {
+        $( "#amount" ).val( ui.value );
+      }
+    });
+    $( "#amount" ).val( $( "#slider-range-max" ).slider( "value" ) );
+  } );
+  </script>
+  </body>
+</html>
